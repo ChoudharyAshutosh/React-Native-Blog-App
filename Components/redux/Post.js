@@ -1,0 +1,2 @@
+export const POST_TEXT_POST='TEXT_POST'
+export const POST_IMAGE_POST='IMAGE_POST'

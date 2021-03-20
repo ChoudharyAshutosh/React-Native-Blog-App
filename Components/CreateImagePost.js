@@ -2,7 +2,27 @@ import React,{useState} from 'react'
 import {Text , View, StyleSheet, TouchableHighlight, TextInput, Image} from 'react-native'
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import * as ImagePicker from "expo-image-picker";
+import {useDispatch} from 'react-redux'
+import {POST_IMAGE_POST} from './redux/Post'
 export default function CreateImagePost({navigation}){
+    const dispatch=useDispatch()
+    const savePost=(data,image)=>{ 
+        if(data==='' && image===null){
+            alert('Please add post details');return;
+        }
+        if(data===''){
+            alert('Enter text data');return;
+        }
+        if(image===null){
+            alert("Please select image");return;
+        }
+    let dataObject={text:data, image: image}
+    if(image!==null && data!==''){
+        dispatch({type:POST_IMAGE_POST, payload:dataObject})
+        navigation.navigate('Home')
+    }
+    }
+    const [postData,setPostData]=useState('')
     const [image, setImage]=useState(null);
     const [label, setLabel]=useState("Choose Image")
     const imagePicker=async ()=>{
@@ -25,12 +45,12 @@ export default function CreateImagePost({navigation}){
             <Text style={styles.arrow}>{'\u2190'}</Text>
             </TouchableHighlight>
             <Text style={styles.head}>Image</Text>
-            <TouchableHighlight underlayColor={"grey"} style={styles.button} onPress={()=>{navigation.navigate('Home')}}>
+            <TouchableHighlight underlayColor={"grey"} style={styles.button} onPress={()=>{savePost(postData,image);}}>
                 <Text style={styles.post}>Post</Text>
             </TouchableHighlight>
             </View>
             <View>
-                <TextInput style={styles.textInput} multiline={true} placeholder='Write content here'></TextInput>
+                <TextInput onChangeText={TextInputValueHolder=>{setPostData(TextInputValueHolder)}} style={styles.textInput} multiline={true} placeholder='Write content here'></TextInput>
                 {image &&  <Image source={{uri:image}} style={styles.image}/>}
                 <TouchableOpacity style={styles.addImage} activeOpacity={0.5} onPress={()=>imagePicker()}>
                     <Text>{label}</Text>

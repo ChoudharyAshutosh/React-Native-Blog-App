@@ -1,15 +1,12 @@
 import 'react-native-gesture-handler';
-import React,{useEffect} from 'react';
+import React,{useEffect, useState} from 'react';
 import {Platform} from 'react-native'
 import * as ImagePicker from 'expo-image-picker'
-import { NavigationContainer } from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack'
-import Home from './Components/Home'
-import CreatePost from './Components/CreatePost'
-import CreateImagePost from './Components/CreateImagePost'
-import CreateTextPost from './Components/CreateTextPost'
-const Stack= createStackNavigator()
+import MainStackNavigator from './Components/MainStackNavigator'
+import {Provider as StoreProvider} from 'react-redux'
+import store from './Components/redux/store'
 const App = () => {
+  const [hk, setHK]=useState("This is state data")
   useEffect(()=>{
     (async ()=>{
       if(Platform !=='web'){
@@ -21,17 +18,9 @@ const App = () => {
     })()
   },[])
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown:false}}>
-        <Stack.Screen
-          name="Home"
-          component={Home}
-        />
-        <Stack.Screen name="CreatePost" component={CreatePost} />
-        <Stack.Screen name='CreateImagePost' component={CreateImagePost}/>
-        <Stack.Screen name="CreateTextPost" component={CreateTextPost}/>
-      </Stack.Navigator>
-    </NavigationContainer>
+    <StoreProvider store={store}>
+      <MainStackNavigator/>
+    </StoreProvider>
   );
 };
 export default App

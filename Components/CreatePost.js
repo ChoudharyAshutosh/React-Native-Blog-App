@@ -1,6 +1,6 @@
 import React from 'react'
 import {Text, TouchableHighlight, View, StyleSheet} from 'react-native'
-export default function CreatePost({navigation}){
+export default function CreatePost({route, navigation}){
     const arrow='&#8592';
     return(
         <View style={styles.container}>

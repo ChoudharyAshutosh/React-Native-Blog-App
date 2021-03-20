@@ -1,15 +1,17 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, ScrollView, TouchableHighlight} from 'react-native';
-
+import { FlatList } from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux'
 export default function Home({navigation}) {
-  const[k,aa]=useState(0);
-  const [l, dd]=useState('a')
+  const [data,setData]=useState('')
+  const data2=useSelector(state => state)
   return (
     <View style={styles.container}>
     <ScrollView style={styles.scrollContainer}>
-    <Text style={styles.message}> No Post</Text>
-      
-    </ScrollView>
+  <Text style={styles.message}> No Post {
+  /*This is for degubbing purpose */
+  console.log(data2)}</Text>
+  </ScrollView>
     <TouchableHighlight style={styles.button} underlayColor={"grey"} onPress={()=>{navigation.navigate('CreatePost')}}>
       <Image style={styles.addimage} source={require("./pngegg.png")}/>
     </TouchableHighlight>

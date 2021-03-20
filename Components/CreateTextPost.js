@@ -1,6 +1,18 @@
-import React from 'react'
+import React,{useState} from 'react'
 import {View, Text, StyleSheet, TouchableHighlight, TextInput} from 'react-native'
+import {useDispatch} from 'react-redux'
+import { POST_TEXT_POST} from './redux/Post'
 export default function CreateTextPost({navigation}){
+    const dispatch=useDispatch()
+    const savePost=(data)=>{ 
+        if(data==='')
+            alert('Please enter post details')
+        else{
+            dispatch({type:POST_TEXT_POST, payload:data})
+            navigation.navigate('Home')
+    }
+    }
+    const [postData,setPostData]=useState('')
     return(
         <View style={styles.container}>
             <View style={styles.header}>
@@ -8,12 +20,12 @@ export default function CreateTextPost({navigation}){
             <Text style={styles.arrow}>{'\u2190'}</Text>
             </TouchableHighlight>
             <Text style={styles.head}>Text</Text>
-            <TouchableHighlight underlayColor={"grey"} style={styles.button} onPress={()=>{navigation.navigate('Home')}}>
+            <TouchableHighlight underlayColor={"grey"} style={styles.button} onPress={()=>{savePost(postData);}}>
                 <Text style={styles.post}>Post</Text>
             </TouchableHighlight>
             </View>
             <View>
-                <TextInput style={styles.textInput} multiline={true} placeholder='Write content here'></TextInput>
+                <TextInput onChangeText={TextInputValueHolder=>{setPostData(TextInputValueHolder)}} style={styles.textInput} multiline={true} placeholder='Write content here'></TextInput>
             </View>
         </View>
     )
