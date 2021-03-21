@@ -40,7 +40,7 @@ const styles=StyleSheet.create({
     },
     button:{
         color:'black',
-        backgroundColor:'#e6e6e6',
+        backgroundColor:'#eaf0fa',
         fontSize:300,
         margin:10,
         alignSelf:'center',

@@ -5,12 +5,13 @@ import { POST_TEXT_POST} from './redux/Post'
 export default function CreateTextPost({navigation}){
     const dispatch=useDispatch()
     const savePost=(data)=>{ 
+       let post={text:data, image:null, time: new Date()}
         if(data==='')
             alert('Please enter post details')
         else{
-            dispatch({type:POST_TEXT_POST, payload:data})
+            dispatch({type:POST_TEXT_POST, payload:post})
             navigation.navigate('Home')
-    }
+        }
     }
     const [postData,setPostData]=useState('')
     return(
@@ -69,7 +70,7 @@ const styles=StyleSheet.create({
     },
     button:{
         alignSelf:'stretch',
-        backgroundColor:'lightgrey',
+        backgroundColor:'#d6e0f5',
         marginTop:4,
         paddingTop:5,
         paddingBottom:5,

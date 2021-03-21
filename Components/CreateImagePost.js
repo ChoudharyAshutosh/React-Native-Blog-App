@@ -16,7 +16,7 @@ export default function CreateImagePost({navigation}){
         if(image===null){
             alert("Please select image");return;
         }
-    let dataObject={text:data, image: image}
+    let dataObject={text:data, image: image, time: new Date(),}
     if(image!==null && data!==''){
         dispatch({type:POST_IMAGE_POST, payload:dataObject})
         navigation.navigate('Home')
@@ -24,7 +24,6 @@ export default function CreateImagePost({navigation}){
     }
     const [postData,setPostData]=useState('')
     const [image, setImage]=useState(null);
-    const [label, setLabel]=useState("Choose Image")
     const imagePicker=async ()=>{
         let result=await ImagePicker.launchImageLibraryAsync({
             mediaTypes:ImagePicker.MediaTypeOptions.All,
@@ -32,11 +31,19 @@ export default function CreateImagePost({navigation}){
             aspect:[4,3],
             quality:1
         })
-        console.log(result)
         if(!result.cancelled){
             setImage(result.uri)
-            setLabel("Update Image")
         }
+    }
+    const renderImageSection=()=>{
+        if(image!==null)
+            return <Image source={{uri:image}} style={styles.image}/>
+        else
+            return(
+                <TouchableOpacity style={styles.addImage} activeOpacity={0.5} onPress={()=>imagePicker()}>
+                    <Text>Choose Image</Text>
+                </TouchableOpacity>
+            )
     }
     return(
         <View style={styles.container}>
@@ -51,10 +58,7 @@ export default function CreateImagePost({navigation}){
             </View>
             <View>
                 <TextInput onChangeText={TextInputValueHolder=>{setPostData(TextInputValueHolder)}} style={styles.textInput} multiline={true} placeholder='Write content here'></TextInput>
-                {image &&  <Image source={{uri:image}} style={styles.image}/>}
-                <TouchableOpacity style={styles.addImage} activeOpacity={0.5} onPress={()=>imagePicker()}>
-                    <Text>{label}</Text>
-                </TouchableOpacity>
+                {renderImageSection()}
             </View>
         </View>
     )
@@ -66,13 +70,14 @@ const styles=StyleSheet.create({
         flex:1,
         paddingTop:25,
         backgroundColor:'white'
-    },image:{
+    },
+    image:{
         alignSelf:'stretch', 
         height:200
     },
     addImage:{
         color:'black',
-        backgroundColor:'#e6e6e6',
+        backgroundColor:'#d6e0f5',
         fontSize:300,
         margin:10,
         alignSelf:'center',
@@ -113,7 +118,7 @@ const styles=StyleSheet.create({
     },
     button:{
         alignSelf:'stretch',
-        backgroundColor:'lightgrey',
+        backgroundColor:'#d6e0f5',
         marginTop:4,
         paddingTop:5,
         paddingBottom:5,
